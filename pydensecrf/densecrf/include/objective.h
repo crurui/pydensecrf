@@ -73,3 +73,13 @@ public:
 	// The objective value is sum_l ( sum_i [ground_truth_i == l] Q_i( l ) ) / ( |ground_truth_i == l| + sum_i [ground_truth_i != l] Q_i( l ) )
 	virtual double evaluate( MatrixXf & d_mul_Q, const MatrixXf & Q ) const;
 };
+
+class SoftmaxCrossEntropy: public ObjectiveFunction {
+protected:
+	VectorXs gt_;
+public:
+	// Give a ground_truth labeling of size N
+	IntersectionOverUnion( const VectorXs & gt );
+	// The objective value is 
+	virtual double evaluate( MatrixXf & d_mul_Q, const MatrixXf & Q ) const;
+};
