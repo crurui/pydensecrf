@@ -107,33 +107,33 @@ double IntersectionOverUnion::evaluate( MatrixXf & d_mul_Q, const MatrixXf & Q )
 	return (in.array()/un.array()).sum()/M;
 }
 
-SoftmaxCrossEntropy::SoftmaxCrossEntropy( const VectorXs & gt ):gt_( gt ){
-}
-double SoftmaxCrossEntropy::evaluate( MatrixXf & d_mul_Q, const MatrixXf & Q ) const {
-	assert( gt_.rows() == Q.cols() );
-	const int N = Q.cols(), M = Q.rows();
-	d_mul_Q = 0*Q;
+// SoftmaxCrossEntropy::SoftmaxCrossEntropy( const VectorXs & gt ):gt_( gt ){
+// }
+// double SoftmaxCrossEntropy::evaluate( MatrixXf & d_mul_Q, const MatrixXf & Q ) const {
+// 	assert( gt_.rows() == Q.cols() );
+// 	const int N = Q.cols(), M = Q.rows();
+// 	d_mul_Q = 0*Q;
 	
-	VectorXd in(M), un(M);
-	in.fill(0.f);
-	un.fill(1e-20);
-	for( int i=0; i<N; i++ ) {
-		if( 0 <= gt_[i] && gt_[i] < M ) {
-			in[ gt_[i] ] += Q(gt_[i],i);
-			un[ gt_[i] ] += 1;
-			for( int l=0; l<M; l++ ) 
-				if( l!=gt_[i] )
-					un[ l ] += Q(l,i);
-		}
-	}
-	for( int i=0; i<N; i++ )
-		if( 0 <= gt_[i] && gt_[i] < M ) {
-			for( int l=0; l<M; l++ ) 
-				if( l==gt_[i] )
-					d_mul_Q(l,i) = Q(l,i) / (un[l]*M);
-				else
-					d_mul_Q(l,i) = - Q(l,i) * in[l] / ( un[l] * un[l] * M);
-		}
-	return (in.array()/un.array()).sum()/M;
-}
+// 	VectorXd in(M), un(M);
+// 	in.fill(0.f);
+// 	un.fill(1e-20);
+// 	for( int i=0; i<N; i++ ) {
+// 		if( 0 <= gt_[i] && gt_[i] < M ) {
+// 			in[ gt_[i] ] += Q(gt_[i],i);
+// 			un[ gt_[i] ] += 1;
+// 			for( int l=0; l<M; l++ ) 
+// 				if( l!=gt_[i] )
+// 					un[ l ] += Q(l,i);
+// 		}
+// 	}
+// 	for( int i=0; i<N; i++ )
+// 		if( 0 <= gt_[i] && gt_[i] < M ) {
+// 			for( int l=0; l<M; l++ ) 
+// 				if( l==gt_[i] )
+// 					d_mul_Q(l,i) = Q(l,i) / (un[l]*M);
+// 				else
+// 					d_mul_Q(l,i) = - Q(l,i) * in[l] / ( un[l] * un[l] * M);
+// 		}
+// 	return (in.array()/un.array()).sum()/M;
+// }
 
