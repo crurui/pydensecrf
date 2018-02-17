@@ -106,8 +106,8 @@ cdef class DenseCRF:
     def klDivergence(self, MatrixXf Q):
         return self._this.klDivergence(Q.m)
     
-    def gradient(self, int niter, label, float robust, VectorXf unary_grad, VectorXf cmp_grad, VectorXf kernel_grad):
-        return self._this.gradient(niter, _objectfunc(label, robust), &unary_grad, &cmp_grad, &kernel_grad)
+    def gradient(self, int niter, label, float robust, float[:] unary_grad, float[:] cmp_grad, float[:] kernel_grad):
+        return self._this.gradient(niter, _objectfunc(label, robust), &unary_grad[0], &cmp_grad[0], &kernel_grad[0])
 
 cdef class DenseCRF2D(DenseCRF):
 
