@@ -29,6 +29,7 @@
 #include "permutohedral.h"
 #include "util.h"
 #include "pairwise.h"
+#include "objective.h"
 #include <cmath>
 #include <cstring>
 #include <iostream>
