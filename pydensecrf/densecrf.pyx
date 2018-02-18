@@ -108,8 +108,8 @@ cdef class DenseCRF:
     
     def gradient(self, int niter, label, float robust, float[::1] unary_grad not None, float[::1] cmp_grad not None, 
                  float[::1] kernel_grad not None):
-        return self._this.gradient(niter, _objectfunc(label, robust), eigen.c_vectorXf(unary_grad),
-                                   eigen.c_vectorXf(cmp_grad), eigen.c_vectorXf(kernel_grad))
+        return self._this.gradient(niter, _objectfunc(label, robust), eigen.pc_vectorXf(unary_grad),
+                                   eigen.pc_vectorXf(cmp_grad), eigen.pc_vectorXf(kernel_grad))
 
 cdef class DenseCRF2D(DenseCRF):
 
