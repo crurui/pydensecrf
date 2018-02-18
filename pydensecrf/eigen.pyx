@@ -4,6 +4,10 @@
 
 
 # [::1] means we want a C-contiguous array.
+cdef c_VectorXf* pc_vectorXf(float[::1] arr):
+    cdef c_VectorXf *pc = c_buf2vecf(&arr[0], arr.shape[0])
+    return pc
+
 cdef c_VectorXf c_vectorXf(float[::1] arr):
     return c_buf2vecf(&arr[0], arr.shape[0])
 
