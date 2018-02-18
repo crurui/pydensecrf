@@ -9,8 +9,7 @@ cimport eigen
 
 cdef ObjectiveFunction& _objectfunc(label, robust) except NULL:
     if isinstance(robust, Number):# && memoryview(label).ndim == 1:
-        LogLikelihood &lll = new LogLikelihood(eigen.c_vectorXf(label), robust)
-        return lll
+        return LogLikelihood(eigen.c_vectorXf(label), robust)
     else:
         raise ValueError("Input Type Error")
     return NULL
