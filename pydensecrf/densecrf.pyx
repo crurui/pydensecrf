@@ -7,7 +7,7 @@ from numbers import Number
 import eigen
 cimport eigen
 
-cdef ObjectiveFunction* _objectfunc(label, robust) except NULL:
+cdef ObjectiveFunction& _objectfunc(label, robust) except NULL:
     if isinstance(robust, Number):# && memoryview(label).ndim == 1:
         return new LogLikelihood(eigen.c_vectorXf(label), robust)
     else:
@@ -107,7 +107,7 @@ cdef class DenseCRF:
         return self._this.klDivergence(Q.m)
     
     def gradient(self, int niter, label, float robust, float[::1] unary_grad, float[::1] cmp_grad, float[::1] kernel_grad):
-        return self._this.gradient(niter, *_objectfunc(label, robust), &eigen.c_vectorXf(unary_grad),
+        return self._this.gradient(niter, _objectfunc(label, robust), &eigen.c_vectorXf(unary_grad),
                                    &eigen.c_vectorXf(cmp_grad), &eigen.c_vectorXf(kernel_grad))
 
 cdef class DenseCRF2D(DenseCRF):
