@@ -7,8 +7,8 @@ from numbers import Number
 import eigen
 cimport eigen
 
-cdef ObjectiveFunction _objectfunc(label, robust) except NULL:
-    if isinstance(robust, Number) && memoryview(label).ndim == 1:
+cdef ObjectiveFunction* _objectfunc(label, robust) except NULL:
+    if isinstance(robust, Number):# && memoryview(label).ndim == 1:
         return new LogLikelihood(eigen.c_vectorXf(label), robust)
     else:
         raise ValueError("Input Type Error")
