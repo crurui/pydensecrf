@@ -24,7 +24,7 @@ cdef class VectorXf:
     cdef VectorXf wrap(self, c_VectorXf v)
 
 cdef c_VectorXf c_vectorXf(float[::1] arr)
-
+cdef c_VectorXf* pc_vectorXf(float[::1] arr)
 
 cdef class MatrixXf:
     cdef c_MatrixXf m
