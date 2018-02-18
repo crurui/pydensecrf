@@ -25,6 +25,12 @@ cdef extern from "densecrf/include/unary.h":
     cdef cppclass LogisticUnaryEnergy(UnaryEnergy):
         LogisticUnaryEnergy(const c_MatrixXf& L, const c_MatrixXf& feature) except +
 
+cdef extern from "densecrf/include/objective.h":
+    cdef cppclass ObjectiveFunction:
+        pass
+
+    cdef cppclass LogLikelihood(ObjectiveFunction):
+        LogLikelihood(const c_VectorXf & gt, float robust) except +
 
 cdef class Unary:
     cdef UnaryEnergy *thisptr
