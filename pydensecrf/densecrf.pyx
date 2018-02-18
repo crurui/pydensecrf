@@ -7,12 +7,12 @@ from numbers import Number
 import eigen
 cimport eigen
 
-cdef ObjectiveFunction& _objectfunc(label, robust) except NULL:
+cdef ObjectiveFunction& _objectfunc(label, robust):
     if isinstance(robust, Number):# && memoryview(label).ndim == 1:
         return LogLikelihood(eigen.c_vectorXf(label), robust)
     else:
         raise ValueError("Input Type Error")
-    return NULL
+    return 0
     
 cdef LabelCompatibility* _labelcomp(compat) except NULL:
     if isinstance(compat, Number):
@@ -106,9 +106,10 @@ cdef class DenseCRF:
     def klDivergence(self, MatrixXf Q):
         return self._this.klDivergence(Q.m)
     
-    def gradient(self, int niter, label, float robust, float[::1] unary_grad, float[::1] cmp_grad, float[::1] kernel_grad):
-        return self._this.gradient(niter, _objectfunc(label, robust), &eigen.c_vectorXf(unary_grad),
-                                   &eigen.c_vectorXf(cmp_grad), &eigen.c_vectorXf(kernel_grad))
+    def gradient(self, int niter, label, float robust, float[::1] unary_grad not None, float[::1] cmp_grad not None, 
+                 float[::1] kernel_grad not None):
+        return self._this.gradient(niter, _objectfunc(label, robust), eigen.c_vectorXf(unary_grad),
+                                   eigen.c_vectorXf(cmp_grad), eigen.c_vectorXf(kernel_grad))
 
 cdef class DenseCRF2D(DenseCRF):
 
