@@ -15,8 +15,8 @@ cdef c_VectorXf c_vectorXf(float[::1] arr):
     return c_buf2vecf(&arr[0], arr.shape[0])
 
 # new add return VectorXs
-cdef c_VectorXs c_vectorXs(float[::1] arr):
-    return c_buf2vecs(&arr[0], arr.shape[0])
+# cdef c_VectorXs c_vectorXs(float[::1] arr):
+#     return c_buf2vecs(&arr[0], arr.shape[0])
 
 def vectorXf(float[::1] arr not None):
     return VectorXf().wrap(c_vectorXf(arr))
