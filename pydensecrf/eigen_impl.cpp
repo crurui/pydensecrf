@@ -6,7 +6,7 @@
 //New add VectorXs
 typedef Eigen::Matrix<short, Eigen::Dynamic, 1> NumpyVecS;
 typedef Eigen::Matrix<short,Dynamic,1> VectorXs;
-static VectorXs buf2vecf(float *mem, Py_ssize_t n)
+static VectorXs buf2vecs(float *mem, Py_ssize_t n)
 {
     return Eigen::Map<NumpyVecS>(mem, n);
 }
