@@ -32,7 +32,7 @@
 /**** Learning Objectives ****/
 ObjectiveFunction::~ObjectiveFunction(){
 }
-LogLikelihood::LogLikelihood( const VectorXs & gt, float robust ):gt_( gt ),robust_(robust){
+LogLikelihood::LogLikelihood( const VectorXf & gt, float robust ):gt_( gt ),robust_(robust){
 }
 double LogLikelihood::evaluate( MatrixXf & d_mul_Q, const MatrixXf & Q ) const {
 	assert( gt_.rows() == Q.cols() );
