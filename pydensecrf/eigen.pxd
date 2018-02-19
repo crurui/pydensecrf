@@ -16,8 +16,8 @@ cdef extern from "eigen_impl.cpp":
     c_MatrixXf c_buf2matf "buf2matf" (float *mem, Py_ssize_t h, Py_ssize_t w)
     void c_matf2buf "matf2buf" (const c_MatrixXf &mat, float *buf)
     # new add 
-    cdef cppclass c_VectorXs"VectorXs"
-    c_VectorXs c_buf2vecs "buf2vecs" (float *mem, Py_ssize_t n)
+#     cdef cppclass c_VectorXs"VectorXs"
+#     c_VectorXs c_buf2vecs "buf2vecs" (float *mem, Py_ssize_t n)
     
 
 
@@ -30,7 +30,7 @@ cdef class VectorXf:
 
 cdef c_VectorXf c_vectorXf(float[::1] arr)
 # new add 2 define
-cdef c_VectorXs c_vectorXs(float[::1] arr)
+# cdef c_VectorXs c_vectorXs(float[::1] arr)
 cdef c_VectorXf* pc_vectorXf(float[::1] arr)
 
 cdef class MatrixXf:
