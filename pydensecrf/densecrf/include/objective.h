@@ -42,11 +42,11 @@ public:
 // Log likelihood objective
 class LogLikelihood: public ObjectiveFunction {
 protected:
-	VectorXs gt_;
+	VectorXf gt_;
 	float robust_;
 public:
 	// Give a ground_truth labeling of size N, optional use a robustness term robust>0
-	LogLikelihood( const VectorXs & gt, float robust=0 );
+	LogLikelihood( const VectorXf & gt, float robust=0 );
 	// The objective value is sum_i log( Q_i( ground_truth_i ) + robust )
 	virtual double evaluate( MatrixXf & d_mul_Q, const MatrixXf & Q ) const;
 };
