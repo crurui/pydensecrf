@@ -7,6 +7,7 @@ cdef extern from "Eigen/Dense":
     cdef cppclass c_VectorXf "Eigen::VectorXf":
         float* data()
         Py_ssize_t size()
+        
 
 
 cdef extern from "eigen_impl.cpp":
@@ -14,6 +15,10 @@ cdef extern from "eigen_impl.cpp":
     void c_vecf2buf "vecf2buf" (const c_VectorXf &mat, float *buf)
     c_MatrixXf c_buf2matf "buf2matf" (float *mem, Py_ssize_t h, Py_ssize_t w)
     void c_matf2buf "matf2buf" (const c_MatrixXf &mat, float *buf)
+    # new add 
+    cdef cppclass c_VectorXs"VectorXs"
+    c_VectorXs c_buf2vecs "buf2vecs" (float *mem, Py_ssize_t n)
+    
 
 
 cdef class VectorXf:
