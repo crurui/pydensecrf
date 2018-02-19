@@ -3,6 +3,15 @@
 
 #include <Python.h> // for Py_ssize_t
 
+//New add VectorXs
+typedef Eigen::Matrix<short, Eigen::Dynamic, 1> NumpyVecS;
+typedef Eigen::Matrix<short,Dynamic,1> VectorXs;
+static VectorXs buf2vecf(float *mem, Py_ssize_t n)
+{
+    return Eigen::Map<NumpyVecS>(mem, n);
+}
+//New add end
+
 typedef Eigen::Matrix<float, Eigen::Dynamic, 1> NumpyVecF;
 
 static Eigen::VectorXf buf2vecf(float *mem, Py_ssize_t n)
