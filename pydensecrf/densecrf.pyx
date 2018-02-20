@@ -7,7 +7,7 @@ from numbers import Number
 import eigen
 cimport eigen
 
-cdef ObjectiveFunction& _objectfunc(label, robust):
+cdef ObjectiveFunction _objectfunc(label, robust):
     if isinstance(robust, Number):# && memoryview(label).ndim == 1:
 #         cdef ObjectiveFunction logl = LogLikelihood(eigen.c_vectorXf(label), robust)
         return LogLikelihood(eigen.c_vectorXf(label), robust)
