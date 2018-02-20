@@ -30,7 +30,7 @@ cdef extern from "densecrf/include/objective.h":
         pass
 
     cdef cppclass LogLikelihood(ObjectiveFunction):
-        LogLikelihood(const c_VectorXf& gt, float robust) except +
+        LogLikelihood(const c_VectorXf& gt, float robust=0) except +
 
 cdef class Unary:
     cdef UnaryEnergy *thisptr
