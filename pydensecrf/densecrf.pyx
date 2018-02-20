@@ -2,15 +2,16 @@
 # distutils: sources = pydensecrf/densecrf/src/densecrf.cpp pydensecrf/densecrf/src/unary.cpp pydensecrf/densecrf/src/pairwise.cpp pydensecrf/densecrf/src/permutohedral.cpp pydensecrf/densecrf/src/optimization.cpp pydensecrf/densecrf/src/objective.cpp pydensecrf/densecrf/src/labelcompatibility.cpp pydensecrf/densecrf/src/util.cpp pydensecrf/densecrf/external/liblbfgs/lib/lbfgs.c
 # distutils: include_dirs = pydensecrf/densecrf/include pydensecrf/densecrf/external/liblbfgs/include
 
+from cython.operator cimport dereference as deref
 from numbers import Number
 
 import eigen
 cimport eigen
 
-cdef ObjectiveFunction _objectfunc(label, robust):
+cdef ObjectiveFunction& _objectfunc(label, robust):
     if isinstance(robust, Number):# && memoryview(label).ndim == 1:
 #         cdef ObjectiveFunction logl = LogLikelihood(eigen.c_vectorXf(label), robust)
-        return LogLikelihood(eigen.c_vectorXf(label), robust)
+        return deref(new LogLikelihood(eigen.c_vectorXf(label), robust))
     else:
         raise ValueError("Input Type Error")
     return 0
