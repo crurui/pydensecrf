@@ -30,7 +30,7 @@ cdef extern from "densecrf/include/objective.h":
         pass
 
     cdef cppclass LogLikelihood(ObjectiveFunction):
-        LogLikelihood(const c_VectorXf& gt, float robust=0) except +
+        LogLikelihood(const c_VectorXf& gt, float robust) except +
 
 cdef class Unary:
     cdef UnaryEnergy *thisptr
@@ -70,7 +70,7 @@ cdef extern from "densecrf/include/densecrf.h":
         # Step-by-step inference methods.
         c_MatrixXf startInference() const
         void stepInference(c_MatrixXf &Q, c_MatrixXf &tmp1, c_MatrixXf &tmp2) const
-        double gradient( int n_iterations, const ObjectiveFunction & objective, c_VectorXf * unary_grad, c_VectorXf * lbl_cmp_grad, c_VectorXf * kernel_grad=NULL) const;
+        double gradient( int n_iterations, const ObjectiveFunction & objective, c_VectorXf * unary_grad, c_VectorXf * lbl_cmp_grad, c_VectorXf * kernel_grad) const;
 
         double klDivergence(const c_MatrixXf &Q) const
 
