@@ -36,8 +36,8 @@ cdef extern from "densecrf/include/objective.h":
 
        
 cdef class ObjectFunc:
-    cdef UnaryEnergy *thisptr
-    cdef UnaryEnergy* move(self)
+    cdef ObjectiveFunction *thisptr
+    cdef ObjectiveFunction* move(self)
 
 cdef class LogLikeli(ObjectFunc):
     pass
