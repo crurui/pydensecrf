@@ -8,14 +8,14 @@ from numbers import Number
 import eigen
 cimport eigen
 
-cdef LogLikelihood _objectfunc(label, robust):
-    if isinstance(robust, Number):# && memoryview(label).ndim == 1:
-#         cdef ObjectiveFunction logl = LogLikelihood(eigen.c_vectorXf(label), robust)
-#         cdef ObjectiveFunction* pl = new LogLikelihood(eigen.c_vectorXf(label), robust)
-        return deref(new LogLikelihood(eigen.c_vectorXf(label), robust))
-    else:
-        raise ValueError("Input Type Error")
-    return 0
+# cdef LogLikeli _objectfunc(label, robust):
+#     if isinstance(robust, Number):# && memoryview(label).ndim == 1:
+# #         cdef ObjectiveFunction logl = LogLikelihood(eigen.c_vectorXf(label), robust)
+# #         cdef ObjectiveFunction* pl = new LogLikelihood(eigen.c_vectorXf(label), robust)
+#         return deref(new LogLikelihood(eigen.c_vectorXf(label), robust))
+#     else:
+#         raise ValueError("Input Type Error")
+#     return 0
     
 cdef LabelCompatibility* _labelcomp(compat) except NULL:
     if isinstance(compat, Number):
@@ -28,6 +28,25 @@ cdef LabelCompatibility* _labelcomp(compat) except NULL:
         raise ValueError("LabelCompatibility of dimension >2 not meaningful.")
     return NULL  # Important for the exception(s) to propagate!
 
+#new add pointer management?
+cdef class ObjectFunc:
+
+    # Because all of the APIs that take an object of this type will
+    # take ownership. Thus, we need to make sure not to delete this
+    # upon destruction.
+    cdef ObjectiveFunction* move(self):
+        ptr = self.thisptr
+        self.thisptr = NULL
+        return ptr
+
+    # It might already be deleted by the library, actually.
+    # Yeah, pretty sure it is.
+    def __dealloc__(self):
+        del self.thisptr
+
+cdef class LogLikeli(ObjectFunc):
+    def __cinit__(self, float[::1] label not None, robust):
+        self.thisptr = new LogLikelihood(eigen.c_vectorXf(label), robust)
 
 cdef class Unary:
 
@@ -111,7 +130,7 @@ cdef class DenseCRF:
     
     def gradient(self, int niter, label, robust, float[::1] unary_grad not None, float[::1] cmp_grad not None, 
                  float[::1] kernel_grad not None):
-        return self._this.gradient(niter, _objectfunc(label, robust), eigen.pc_vectorXf(unary_grad),
+        return self._this.gradient(niter, Loglikeli(label, robust), eigen.pc_vectorXf(unary_grad),
                                    eigen.pc_vectorXf(cmp_grad), eigen.pc_vectorXf(kernel_grad))
 
 cdef class DenseCRF2D(DenseCRF):
