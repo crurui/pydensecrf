@@ -8,11 +8,11 @@ from numbers import Number
 import eigen
 cimport eigen
 
-cdef ObjectiveFunction& _objectfunc(label, robust):
+cdef LogLikelihood _objectfunc(label, robust):
     if isinstance(robust, Number):# && memoryview(label).ndim == 1:
 #         cdef ObjectiveFunction logl = LogLikelihood(eigen.c_vectorXf(label), robust)
-        cdef ObjectiveFunction* pl = new LogLikelihood(eigen.c_vectorXf(label), robust)
-        return deref(pl)
+#         cdef ObjectiveFunction* pl = new LogLikelihood(eigen.c_vectorXf(label), robust)
+        return deref(new LogLikelihood(eigen.c_vectorXf(label), robust))
     else:
         raise ValueError("Input Type Error")
     return 0
